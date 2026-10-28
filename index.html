@@ -1,31 +1,583 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reels de Motivación</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MR Dev — Páginas web, apps y sistemas que venden</title>
+<meta name="description" content="MR Dev: diseño landing pages, sitios web, aplicaciones móviles y sistemas CRM a medida en Colombia. Precio claro, entrega en días, contacto directo por WhatsApp.">
+<!-- ÚNICA librería externa añadida para la sección «Demo en vivo»: model-viewer (Google), necesaria para el visor 3D real. -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+<style>
+:root{
+  --bg:#0b0b0d; --bg2:#121215; --card:#16161a; --line:#26262c;
+  --txt:#f4f4f5; --mut:#a7a7b3;
+  --lime:#d4f93b; --lime-d:#a8cc1e;
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(11,11,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.25rem;letter-spacing:.5px}
+.logo b{color:var(--lime)}
+.nav-links{display:flex;gap:26px;font-size:.95rem;color:var(--mut)}
+.nav-links a:hover{color:var(--txt)}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--lime);color:#0b0b0d;font-weight:700;padding:13px 26px;border-radius:999px;border:none;cursor:pointer;font-size:1rem;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,249,59,.28)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--lime);box-shadow:none}
+.btn.sm{padding:9px 20px;font-size:.9rem}
+/* HERO */
+.hero{padding:150px 0 70px;position:relative}
+.hero::before{content:"";position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:720px;height:420px;background:radial-gradient(ellipse at center,rgba(212,249,59,.13),transparent 70%);pointer-events:none}
+.eyebrow{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lime);border:1px solid rgba(212,249,59,.35);padding:7px 16px;border-radius:999px;margin-bottom:22px}
+h1{font-size:clamp(2.1rem,5.4vw,3.7rem);line-height:1.12;font-weight:800;letter-spacing:-1px;max-width:800px}
+h1 .hl{color:var(--lime)}
+.hero p.sub{color:var(--mut);font-size:1.15rem;max-width:640px;margin:20px 0 32px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+.chip{font-size:.85rem;color:var(--mut);border:1px solid var(--line);background:var(--bg2);padding:8px 16px;border-radius:999px}
+.chip i{font-style:normal;color:var(--lime);margin-right:6px}
+/* HERO 3D MOCKUP (CSS puro, sin imágenes externas) */
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero-mock{position:relative;perspective:1200px;max-width:460px;width:100%;margin:0 auto}
+.mockup-win{background:#141419;border:1px solid var(--line);border-radius:18px;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 60px rgba(212,249,59,.10);transform:rotateY(-12deg) rotateX(4deg);transform-style:preserve-3d;animation:floaty 7s ease-in-out infinite alternate;overflow:hidden}
+@keyframes floaty{from{transform:rotateY(-12deg) rotateX(4deg) translateY(0)}to{transform:rotateY(-12deg) rotateX(4deg) translateY(-12px)}}
+.mockup-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:#101014}
+.mockup-dot{width:11px;height:11px;border-radius:50%}
+.mockup-url{margin-left:8px;font-size:.75rem;color:var(--mut);background:var(--bg2);border:1px solid var(--line);padding:4px 14px;border-radius:999px}
+.mockup-body{padding:26px 24px 24px}
+.mockup-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.mockup-logo{font-weight:800;font-size:.95rem}
+.mockup-logo b{color:var(--lime)}
+.mockup-links{display:flex;gap:10px}
+.mockup-links i{display:block;width:34px;height:7px;border-radius:99px;background:#2a2a31}
+.mockup-h1{height:16px;border-radius:6px;background:var(--lime);width:78%;margin-bottom:10px}
+.mockup-h2{height:16px;border-radius:6px;background:#3a3a42;width:52%;margin-bottom:18px}
+.mockup-line{height:8px;border-radius:99px;background:#2a2a31;margin-bottom:8px}
+.mockup-line.short{width:64%}
+.mockup-btn{display:inline-block;margin-top:16px;background:var(--lime);color:#0b0b0d;font-weight:800;font-size:.8rem;padding:9px 20px;border-radius:999px}
+.mockup-img{margin-top:20px;height:110px;border-radius:12px;background:linear-gradient(135deg,#1d1d24,#101014 60%,rgba(212,249,59,.25))}
+.mockup-float{position:absolute;background:#1c1c22;border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:.82rem;box-shadow:0 18px 40px rgba(0,0,0,.55);transform:translateZ(70px);z-index:3}
+.mockup-float b{display:block;color:var(--lime)}
+.mockup-float.wa{top:16%;left:-24px}
+.mockup-float.time{bottom:12%;right:-16px}
+.mockup-float small{color:var(--mut)}
+/* STATS */
+.stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2)}
+.stats-in{display:grid;grid-template-columns:repeat(3,1fr);padding:34px 0;gap:18px;text-align:center}
+.stat b{font-size:1.7rem;color:var(--lime);display:block}
+.stat span{color:var(--mut);font-size:.92rem}
+/* SECTIONS */
+section{padding:84px 0}
+.kicker{color:var(--lime);font-weight:700;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,3.6vw,2.4rem);font-weight:800;letter-spacing:-.5px;margin-bottom:14px}
+.sec-sub{color:var(--mut);max-width:640px;margin-bottom:44px;font-size:1.05rem}
+/* SERVICES v2: bloques completos */
+.svc-stack{display:grid;gap:24px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:34px 30px;transition:transform .18s,border-color .18s,box-shadow .18s}
+.svc:hover{transform:translateY(-5px);border-color:rgba(212,249,59,.45);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 44px rgba(212,249,59,.12)}
+.svc-head{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-bottom:24px}
+.svc-head .ico{font-size:2.2rem;flex-shrink:0}
+.svc-head h3{font-size:1.45rem;margin-bottom:4px}
+.svc-for{color:var(--mut);font-size:.96rem;max-width:560px}
+.svc-meta{margin-left:auto;text-align:right;flex-shrink:0}
+.svc .price{font-size:1.2rem;font-weight:800;color:var(--lime)}
+.svc .price small{font-weight:400;color:var(--mut);font-size:.82rem}
+.svc .time{font-size:.88rem;color:var(--mut)}
+.svc .pay{font-size:.82rem;color:var(--mut);border:1px dashed #33333a;border-radius:999px;padding:4px 12px;display:inline-block;margin-top:8px}
+.svc-body{display:grid;grid-template-columns:1fr 1.15fr;gap:28px;margin-bottom:26px}
+.svc-body h4{font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--lime);margin:18px 0 8px}
+.svc-body h4:first-child{margin-top:0}
+.svc-body p{color:var(--mut);font-size:.96rem}
+.svc-body ul{list-style:none}
+.svc-body ul li{color:var(--mut);font-size:.94rem;padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed #222228}
+.svc-body ul li:last-child{border:none}
+.svc-body ul li::before{content:"✓";position:absolute;left:2px;color:var(--lime);font-weight:700}
+.svc .btn{justify-content:center}
+/* PORTFOLIO */
+.pf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.pf{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .18s,border-color .18s}
+.pf:hover{transform:translateY(-5px);border-color:rgba(212,249,59,.45)}
+.pf-visual{height:170px;display:flex;align-items:center;justify-content:center;font-size:3.4rem;background:linear-gradient(135deg,#1a1a20,#101014)}
+.pf-body{padding:24px}
+.pf-body h3{margin-bottom:8px}
+.pf-body p{color:var(--mut);font-size:.94rem;margin-bottom:12px}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;background:rgba(212,249,59,.12);color:var(--lime);padding:4px 12px;border-radius:999px;margin-right:6px;margin-bottom:6px}
+/* PROCESS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:step}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;position:relative}
+.step::before{counter-increment:step;content:counter(step);position:absolute;top:-18px;left:22px;background:var(--lime);color:#0b0b0d;font-weight:800;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem}
+.step h3{margin:8px 0 8px;font-size:1.08rem}
+.step p{color:var(--mut);font-size:.93rem}
+/* WHY */
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.why-item{display:flex;gap:14px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:20px;transition:transform .18s,border-color .18s}
+.why-item:hover{transform:translateY(-4px);border-color:rgba(212,249,59,.45)}
+.why-item .w-ico{font-size:1.5rem;flex-shrink:0}
+.why-item b{display:block;margin-bottom:4px}
+.why-item p{color:var(--mut);font-size:.9rem}
+/* FAQ */
+.faq-item{border:1px solid var(--line);border-radius:14px;margin-bottom:12px;background:var(--card);overflow:hidden}
+.faq-q{width:100%;background:none;border:none;color:var(--txt);font-size:1.02rem;font-weight:600;text-align:left;padding:20px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.faq-q .plus{color:var(--lime);font-size:1.4rem;flex-shrink:0;transition:transform .25s}
+.faq-item.open .faq-q .plus{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-a p{color:var(--mut);padding:0 22px 20px;font-size:.95rem}
+/* CTA */
+.cta-sec{text-align:center;background:linear-gradient(180deg,var(--bg2),var(--bg));border-top:1px solid var(--line)}
+.cta-sec h2{max-width:640px;margin:0 auto 14px}
+.cta-sec p{color:var(--mut);margin-bottom:30px}
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-size:.88rem}
+.foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;right:20px;bottom:20px;z-index:60;width:60px;height:60px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(37,211,102,.4);transition:transform .15s}
+.wa-float:hover{transform:scale(1.08)}
+.wa-float svg{width:32px;height:32px;fill:#fff}
+/* REVEAL */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.rv.vis{opacity:1;transform:none}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-mock{margin-top:10px}
+  .svc-body{grid-template-columns:1fr}
+  .svc-meta{text-align:left;margin-left:0}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .hero{padding:120px 0 54px}
+  section{padding:60px 0}
+  .stats-in{grid-template-columns:1fr;gap:22px}
+  .svc{padding:26px 20px}
+  .mockup-float.wa{left:-6px}
+  .mockup-float.time{right:-6px}
+}
+/* ===== FX UPGRADE: 3D + motion ===== */
+#fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero{overflow:hidden}
+.hero-in{position:relative;z-index:2}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:drift 14s ease-in-out infinite alternate;z-index:1}
+.orb-a{width:340px;height:340px;background:#d4f93b;top:-90px;right:-70px;opacity:.16}
+.orb-b{width:280px;height:280px;background:#7c5cff;bottom:-60px;left:-60px;opacity:.20;animation-delay:-5s}
+.orb-c{width:200px;height:200px;background:#25d366;top:38%;left:44%;opacity:.10;animation-delay:-9s}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(50px,-40px) scale(1.15)}}
+h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.svc,.pf{transform-style:preserve-3d;will-change:transform}
+.svc .ico{transform:translateZ(30px)}
+.pf-visual{transform:translateZ(30px)}
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .55s ease}
+.btn:hover::after{left:130%}
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#0e0e11;padding:15px 0}
+.marquee-track{display:flex;gap:46px;width:max-content;animation:mscroll 28s linear infinite;font-weight:700;font-size:.95rem;color:var(--mut);white-space:nowrap}
+.marquee-track i{font-style:normal;color:var(--lime);margin-right:46px}
+@keyframes mscroll{to{transform:translateX(-50%)}}
+.rv{transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ===== DEMO EN VIVO (carro 3D) — añadido 2026-10-28, solo para esta sección ===== */
+.demo-vivo-grid{display:grid;gap:28px;align-items:start}
+@media(min-width:900px){.demo-vivo-grid{grid-template-columns:1.05fr .95fr}}
+.demo-vivo-viewer{background:#101014;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.demo-vivo-viewer model-viewer{width:100%;height:380px;display:block}
+@media(min-width:900px){.demo-vivo-viewer model-viewer{height:430px}}
+.demo-vivo-fallback{display:none;text-align:center;padding:1rem}
+.demo-vivo-fallback img{max-width:100%;height:auto;border-radius:12px}
+.demo-vivo-hint{text-align:center;font-size:.9rem;color:var(--mut);padding:.7rem 1rem .2rem}
+.demo-vivo-note{font-size:.82rem;color:var(--mut);text-align:center;padding:0 1rem 1rem;margin:0}
+.demo-vivo-fotos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.demo-vivo-fotos img{width:100%;height:130px;object-fit:cover;border-radius:12px;border:1px solid var(--line);display:block}
+.demo-vivo-creditos{grid-column:1/-1;font-size:.8rem;color:var(--mut);margin:0}
+.demo-vivo-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.demo-vivo-cta .btn{justify-content:center}
+.demo-vivo-disclaimer{font-size:.85rem;color:var(--mut);margin-top:14px}
+</style>
 </head>
 <body>
-    <h1>Reels de Motivación</h1>
-    <div id="reels-container"></div>
 
-    <script src="script.js"></script>
+<nav id="nav"><div class="wrap nav-in">
+  <a href="#top" class="logo"><b>MR</b>·Dev</a>
+  <div class="nav-links">
+    <a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#proceso">Proceso</a><a href="#faq">Preguntas</a>
+  </div>
+  <a class="btn sm" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener">Cotizar</a>
+</div></nav>
+
+<header class="hero" id="top">
+<canvas id="fx"></canvas>
+<div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div>
+<div class="wrap hero-in hero-grid">
+  <div class="hero-copy">
+    <span class="eyebrow rv">Desarrollo web · Apps móviles · Sistemas a medida</span>
+    <h1 class="rv">Tu negocio no necesita solo una página bonita. Necesita una <span class="hl">que venda.</span></h1>
+    <p class="sub rv">MR Dev es un estudio de desarrollo en Bogotá y Soacha que construye landing pages, sitios web, aplicaciones móviles y sistemas CRM que convierten visitas en clientes. Precio claro desde el día uno y entrega en días, no meses.</p>
+    <div class="hero-cta rv">
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener">💬 Cotizar por WhatsApp</a>
+      <a class="btn ghost" href="#servicios">Ver servicios y precios</a>
+    </div>
+    <div class="chips rv">
+      <span class="chip"><i>●</i>Entrega desde 5 días</span>
+      <span class="chip"><i>●</i>50% para iniciar</span>
+      <span class="chip"><i>●</i>Trato directo, sin intermediarios</span>
+    </div>
+  </div>
+  <div class="hero-mock rv" aria-hidden="true">
+    <div class="mockup-win">
+      <div class="mockup-bar"><span class="mockup-dot" style="background:#ff5f57"></span><span class="mockup-dot" style="background:#febc2e"></span><span class="mockup-dot" style="background:#28c840"></span><span class="mockup-url">tunegocio.com</span></div>
+      <div class="mockup-body">
+        <div class="mockup-nav"><span class="mockup-logo"><b>MR</b>·Demo</span><span class="mockup-links"><i></i><i></i><i></i></span></div>
+        <div class="mockup-h1"></div><div class="mockup-h2"></div>
+        <div class="mockup-line"></div><div class="mockup-line short"></div>
+        <span class="mockup-btn">Cotizar ahora</span>
+        <div class="mockup-img"></div>
+      </div>
+    </div>
+    <div class="mockup-float wa"><b>💬 Nuevo mensaje</b><small>Hola, quiero cotizar mi página</small></div>
+    <div class="mockup-float time"><b>✓ Entrega en 5–7 días</b><small>Diseño a medida, sin plantillas</small></div>
+  </div>
+</div></header>
+
+<div class="stats"><div class="wrap stats-in">
+  <div class="stat rv"><b><span data-count="3">0</span>+</b><span>productos digitales propios construidos</span></div>
+  <div class="stat rv"><b>5–30 días</b><span>de entrega según el proyecto</span></div>
+  <div class="stat rv"><b><span data-count="100">0</span>%</b><span>diseños responsive para celular</span></div>
+</div></div>
+
+<div class="marquee"><div class="marquee-track">
+<span><i>✦</i>Landing Pages</span><span><i>✦</i>Apps Android</span><span><i>✦</i>Kotlin</span><span><i>✦</i>Sistemas CRM</span><span><i>✦</i>Supabase</span><span><i>✦</i>Google Play</span><span><i>✦</i>Diseño UI</span><span><i>✦</i>SEO</span><span><i>✦</i>IA Integrada</span><span><i>✦</i>Soporte</span>
+<span><i>✦</i>Landing Pages</span><span><i>✦</i>Apps Android</span><span><i>✦</i>Kotlin</span><span><i>✦</i>Sistemas CRM</span><span><i>✦</i>Supabase</span><span><i>✦</i>Google Play</span><span><i>✦</i>Diseño UI</span><span><i>✦</i>SEO</span><span><i>✦</i>IA Integrada</span><span><i>✦</i>Soporte</span>
+</div></div>
+
+<section id="servicios"><div class="wrap">
+  <p class="kicker rv">Servicios</p>
+  <h2 class="rv">Elige lo que tu negocio necesita</h2>
+  <p class="sec-sub rv">Precios de lanzamiento. Cada proyecto incluye propuesta con alcance cerrado, precio fijo y 2 rondas de ajustes. Pago: 50% para iniciar, 50% contra entrega.</p>
+  <div class="svc-stack">
+
+    <article class="svc rv">
+      <div class="svc-head">
+        <div class="ico">🚀</div>
+        <div><h3>Landing Page</h3>
+        <p class="svc-for">Para negocios con una oferta clara que necesitan convertir visitas en mensajes y ventas ya: lanzamientos, servicios profesionales, reservas y promociones.</p></div>
+        <div class="svc-meta"><p class="price">Desde $400.000 <small>COP</small></p><p class="time">Entrega en 5–7 días</p><span class="pay">50% para iniciar · 50% contra entrega</span></div>
+      </div>
+      <div class="svc-body">
+        <div>
+          <h4>El problema que resuelve</h4>
+          <p>Hoy el cliente te encuentra en redes, pero sin una página pensada para convertir, se va sin escribirte. Una página genérica no vende: entretiene. Esta landing existe para un solo objetivo: que cada visita termine en un mensaje.</p>
+          <h4>Qué recibes al final</h4>
+          <p>Tu página publicada y lista para compartir en redes, estados y anuncios, con un camino claro hacia WhatsApp y un diseño que respalda el precio que cobras.</p>
+        </div>
+        <div>
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Una página de alto impacto, diseñada a medida, sin plantillas</li>
+            <li>Estructura orientada a conversión: titular, beneficios, prueba social y llamada a la acción</li>
+            <li>Diseño responsive: perfecta en celular, donde llega la mayoría de tus visitas</li>
+            <li>Botón de WhatsApp y formulario de contacto conectados</li>
+            <li>SEO básico on-page: títulos, descripciones y velocidad de carga</li>
+            <li>2 rondas de ajustes antes de publicar</li>
+            <li>Capacitación básica para actualizar textos e imágenes</li>
+          </ul>
+        </div>
+      </div>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20una%20landing%20page" target="_blank" rel="noopener">Cotizar landing</a>
+    </article>
+
+    <article class="svc rv">
+      <div class="svc-head">
+        <div class="ico">🏢</div>
+        <div><h3>Sitio Web Corporativo</h3>
+        <p class="svc-for">Para empresas y profesionales que necesitan una presencia completa y creíble: que un cliente nuevo entienda qué hacen, por qué elegirlos y cómo contactarlos, sin tener que llamar primero.</p></div>
+        <div class="svc-meta"><p class="price">Desde $900.000 <small>COP</small></p><p class="time">Entrega en 2–3 semanas</p><span class="pay">50% para iniciar · 50% contra entrega</span></div>
+      </div>
+      <div class="svc-body">
+        <div>
+          <h4>El problema que resuelve</h4>
+          <p>Una web desactualizada, incompleta o que no se ve bien en el celular hace que el cliente compare con la competencia y elija a otro. Tu sitio debe responder las dudas del cliente antes de que te escriba.</p>
+          <h4>Qué recibes al final</h4>
+          <p>Tu sitio completo publicado, con medición de visitas desde el primer día y un diseño premium que respalda la imagen de tu empresa.</p>
+        </div>
+        <div>
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Hasta 8 secciones diseñadas a medida (por ejemplo: inicio, servicios, nosotros, proyectos, testimonios y contacto)</li>
+            <li>Diseño premium responsive para celular, tableta y computador</li>
+            <li>SEO on-page y Google Analytics configurado para medir visitas</li>
+            <li>Formulario de contacto y WhatsApp integrados en todo el sitio</li>
+            <li>2 rondas de ajustes antes de publicar</li>
+            <li>Capacitación básica para actualizar contenidos</li>
+          </ul>
+        </div>
+      </div>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20un%20sitio%20web%20corporativo" target="_blank" rel="noopener">Cotizar web</a>
+    </article>
+
+    <article class="svc rv">
+      <div class="svc-head">
+        <div class="ico">📱</div>
+        <div><h3>App Móvil MVP</h3>
+        <p class="svc-for">Para negocios con una idea ya validada que necesitan llegar a sus clientes en el celular, sin pagar ni esperar un desarrollo grande.</p></div>
+        <div class="svc-meta"><p class="price">Desde $2.500.000 <small>COP</small></p><p class="time">Entrega en 4–8 semanas</p><span class="pay">50% para iniciar · 50% contra entrega</span></div>
+      </div>
+      <div class="svc-body">
+        <div>
+          <h4>El problema que resuelve</h4>
+          <p>Una idea en papel no genera usuarios. Un desarrollo completo tarda meses y cuesta varias veces más. Un MVP te permite lanzar con lo esencial, probar con usuarios reales y mejorar por versiones, sin apostarlo todo a la primera.</p>
+          <h4>Qué recibes al final</h4>
+          <p>Tu app publicada en Google Play, lista para descargar, probar con usuarios reales y crecer por versiones según lo que el mercado pida.</p>
+        </div>
+        <div>
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>App Android funcional con el alcance MVP acordado por escrito</li>
+            <li>Inicio de sesión y base de datos en la nube con Supabase</li>
+            <li>Publicación en Google Play: ficha, descripción y capturas de pantalla</li>
+            <li>Panel básico de administración para gestionar el contenido</li>
+            <li>2 rondas de ajustes por fase de construcción</li>
+            <li>Capacitación para usar la app y el panel</li>
+          </ul>
+        </div>
+      </div>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20una%20app%20m%C3%B3vil" target="_blank" rel="noopener">Cotizar app</a>
+    </article>
+
+    <article class="svc rv">
+      <div class="svc-head">
+        <div class="ico">⚙️</div>
+        <div><h3>CRM / Sistema a medida</h3>
+        <p class="svc-for">Para negocios que hoy llevan clientes, citas o inventario en cuadernos, hojas de cálculo o chats, y pierden tiempo buscando todo.</p></div>
+        <div class="svc-meta"><p class="price">Desde $2.000.000 <small>COP</small></p><p class="time">Entrega en 4–8 semanas</p><span class="pay">50% para iniciar · 50% contra entrega</span></div>
+      </div>
+      <div class="svc-body">
+        <div>
+          <h4>El problema que resuelve</h4>
+          <p>Sin un sistema, se pierden citas, se duplica trabajo y nadie sabe con certeza qué se está vendiendo ni qué falta. El negocio termina dependiendo de la memoria de una persona.</p>
+          <h4>Qué recibes al final</h4>
+          <p>Tu sistema funcionando con tus datos y tu equipo capacitado, para que el negocio opere con orden aunque no estés encima de todo.</p>
+        </div>
+        <div>
+          <h4>Qué incluye</h4>
+          <ul>
+            <li>Gestión de clientes, citas e inventario en un solo lugar</li>
+            <li>Usuarios y roles de acceso: cada persona ve solo lo que le corresponde</li>
+            <li>Reportes del negocio para decidir con datos, no con intuición</li>
+            <li>2 rondas de ajustes por fase de construcción</li>
+            <li>Capacitación para tu equipo al entregar</li>
+            <li>Soporte mensual opcional desde $150.000 COP</li>
+          </ul>
+        </div>
+      </div>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20un%20CRM%20o%20sistema%20a%20medida" target="_blank" rel="noopener">Cotizar sistema</a>
+    </article>
+
+  </div>
+</div></section>
+
+<!-- ============================================================
+     PROMO: pendiente de definir por el usuario
+     Aquí irá la sección de promoción (descuento, vigencia y
+     condiciones) cuando el usuario defina qué ofrece.
+     No se escribió ningún texto promocional ni precio con
+     descuento porque no están definidos.
+     ============================================================ -->
+
+<section id="demo-vivo" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <p class="kicker rv">Demo en vivo</p>
+  <h2 class="rv">Mira lo que podemos crear para tu negocio</h2>
+  <p class="sec-sub rv">Esta es una página de ejemplo: un carro con visor 3D interactivo, fotos, ficha y llamada a la acción. Así se vería tu producto vendiendo en internet. No es una tienda real.</p>
+  <div class="demo-vivo-grid">
+    <div class="demo-vivo-viewer">
+      <model-viewer id="visor-demo"
+        src="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Assets@main/Models/ToyCar/glTF-Binary/ToyCar.glb"
+        poster="https://cdn.pixabay.com/photo/2016/05/05/18/01/coupe-1374441_640.jpg"
+        alt="Modelo 3D de ejemplo de un carro"
+        camera-controls auto-rotate shadow-intensity="1" exposure="1" environment-image="neutral">
+      </model-viewer>
+      <div class="demo-vivo-fallback" id="visor-demo-fallback">
+        <img src="https://cdn.pixabay.com/photo/2016/05/05/18/01/coupe-1374441_640.jpg" alt="Foto de ejemplo de un cupé oscuro">
+        <p>El modelo 3D no se pudo cargar en este momento. Aquí ves la foto del carro de ejemplo.</p>
+      </div>
+      <p class="demo-vivo-hint">👆 Arrastra para girar · Pellizca o usa la rueda del mouse para acercar</p>
+      <p class="demo-vivo-note">El visor muestra un carro 3D genérico de ejemplo (modelo libre «ToyCar» de Khronos, dominio público CC0), no el carro exacto de la foto.</p>
+    </div>
+    <div>
+      <div class="demo-vivo-fotos">
+        <img src="https://cdn.pixabay.com/photo/2016/05/05/18/01/coupe-1374441_640.jpg" alt="Cupé oscuro de ejemplo" loading="lazy">
+        <img src="https://cdn.pixabay.com/photo/2013/06/05/20/41/sports-car-116949_640.jpg" alt="Detalle de la farola de un carro rojo" loading="lazy">
+        <img src="https://cdn.pixabay.com/photo/2019/11/25/13/35/travel-4652075_640.jpg" alt="Espejo retrovisor reflejando la carretera" loading="lazy">
+        <p class="demo-vivo-creditos">Fotos de ejemplo: Pixabay (pgottschalk, 12019, akirEVarga).</p>
+      </div>
+      <div class="demo-vivo-cta">
+        <a class="btn" href="demo-carro.html">Ver la demo completa →</a>
+        <a class="btn ghost" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20una%20p%C3%A1gina%20as%C3%AD%20para%20mi%20producto" target="_blank" rel="noopener">Quiero una página así</a>
+      </div>
+      <p class="demo-vivo-disclaimer">Demo creada por MR Dev. No pertenece a ningún cliente, no muestra reseñas ni cifras de ventas, y no procesa pedidos.</p>
+    </div>
+  </div>
+</div></section>
+<script>
+(function(){
+  var visor = document.getElementById('visor-demo');
+  var fallback = document.getElementById('visor-demo-fallback');
+  function mostrarFallback(){
+    if (visor) visor.style.display = 'none';
+    if (fallback) fallback.style.display = 'block';
+  }
+  setTimeout(function(){
+    if (!window.customElements || !customElements.get('model-viewer')) mostrarFallback();
+  }, 8000);
+  if (visor) visor.addEventListener('error', mostrarFallback);
+})();
+</script>
+
+<section id="proyectos" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <p class="kicker rv">Proyectos</p>
+  <h2 class="rv">Lo que ya hemos construido</h2>
+  <p class="sec-sub rv">Productos reales, funcionando. Imagina lo que podemos construir para tu negocio.</p>
+  <div class="pf-grid">
+    <div class="pf rv">
+      <div class="pf-visual">🧠</div>
+      <div class="pf-body"><h3>Motiva-Me</h3>
+        <p>App Android de crecimiento personal: hábitos, metas, finanzas personales y coaching con IA. Próximo lanzamiento en Google Play.</p>
+        <span class="tag">App móvil</span><span class="tag">IA</span><span class="tag">Android</span>
+      </div>
+    </div>
+    <div class="pf rv">
+      <div class="pf-visual">🐾</div>
+      <div class="pf-body"><h3>Mascotas Go</h3>
+        <p>App de descubrimiento de mascotas estilo Pokémon GO: mapa interactivo, cámara con IA y gamificación.</p>
+        <span class="tag">App móvil</span><span class="tag">Mapas</span><span class="tag">Gamificación</span>
+      </div>
+    </div>
+    <div class="pf rv">
+      <div class="pf-visual">💬</div>
+      <div class="pf-body"><h3>¿Tu proyecto aquí?</h3>
+        <p>Estamos tomando los primeros clientes con tarifa de lanzamiento. Escríbenos y construimos algo que venda por ti.</p>
+        <a class="btn sm" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20que%20mi%20proyecto%20sea%20el%20siguiente" target="_blank" rel="noopener" style="margin-top:8px">Empezar mi proyecto</a>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="proceso"><div class="wrap">
+  <p class="kicker rv">Cómo trabajo</p>
+  <h2 class="rv">Un proceso simple, sin sorpresas</h2>
+  <p class="sec-sub rv">Sabrás qué vas a recibir, cuánto cuesta y cuándo lo tendrás, antes de pagar un peso.</p>
+  <div class="steps">
+    <div class="step rv"><h3>1. Descubrimiento gratis</h3><p>Hablamos por WhatsApp o llamada para definir tu negocio, tus clientes y qué quieres lograr.</p></div>
+    <div class="step rv"><h3>2. Propuesta clara</h3><p>Recibes alcance cerrado, precio fijo y fecha de entrega por escrito. 50% para iniciar.</p></div>
+    <div class="step rv"><h3>3. Construcción por fases</h3><p>Ves avances reales y pides ajustes. 2 rondas de cambios incluidas en cada fase.</p></div>
+    <div class="step rv"><h3>4. Lanzamiento + soporte</h3><p>50% contra entrega, capacitación para usarlo y acompañamiento post-lanzamiento.</p></div>
+  </div>
+</div></section>
+
+<section style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap">
+  <p class="kicker rv">Por qué MR Dev</p>
+  <h2 class="rv">No solo programamos. Te ayudamos a vender.</h2>
+  <p class="sec-sub rv">La diferencia entre una página que existe y una que trae clientes está en el enfoque.</p>
+  <div class="why">
+    <div class="why-item rv"><span class="w-ico">🎯</span><div><b>Diseño que convierte</b><p>Cada sección tiene un objetivo: que el visitante te escriba o te compre.</p></div></div>
+    <div class="why-item rv"><span class="w-ico">🤝</span><div><b>Trato directo</b><p>Hablas con quien programa. Sin intermediarios, sin teléfono roto.</p></div></div>
+    <div class="why-item rv"><span class="w-ico">💰</span><div><b>Precio claro desde el día uno</b><p>Propuesta con precio fijo por escrito. Sin costos ocultos.</p></div></div>
+    <div class="why-item rv"><span class="w-ico">⚡</span><div><b>Velocidad con IA</b><p>Usamos inteligencia artificial en el desarrollo: entregamos en días lo que otros tardan semanas.</p></div></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap" style="max-width:800px">
+  <p class="kicker rv">Preguntas frecuentes</p>
+  <h2 class="rv">Lo que nos preguntan antes de contratar</h2>
+  <p class="sec-sub rv">Si tienes otra duda, escríbenos por WhatsApp y te respondemos directo.</p>
+  <div class="faq-item rv"><button class="faq-q">¿Cuánto tarda mi proyecto?<span class="plus">+</span></button><div class="faq-a"><p>Landing page: 5–7 días. Sitio corporativo: 2–3 semanas. App móvil o CRM: 4–8 semanas según el alcance. La fecha exacta queda por escrito en la propuesta.</p></div></div>
+  <div class="faq-item rv"><button class="faq-q">¿Cómo es el pago?<span class="plus">+</span></button><div class="faq-a"><p>50% para iniciar el proyecto y 50% contra entrega. Sin anticipo no se agenda el trabajo: así nos comprometemos los dos.</p></div></div>
+  <div class="faq-item rv"><button class="faq-q">¿El precio incluye dominio y hosting?<span class="plus">+</span></button><div class="faq-a"><p>No están incluidos, pero te asesoramos para contratarlos al mejor precio y queda todo configurado y funcionando. Es un costo anual bajo que queda a tu nombre.</p></div></div>
+  <div class="faq-item rv"><button class="faq-q">¿Qué necesitamos para empezar?<span class="plus">+</span></button><div class="faq-a"><p>Tu logo, fotos y textos si los tienes. Si no los tienes, los creamos juntos en la fase de descubrimiento: no frenamos por eso.</p></div></div>
+  <div class="faq-item rv"><button class="faq-q">¿Puedo pedir cambios durante el proyecto?<span class="plus">+</span></button><div class="faq-a"><p>Sí. Cada fase incluye 2 rondas de ajustes. Los cambios fuera del alcance acordado se cotizan aparte, siempre con tu aprobación previa.</p></div></div>
+  <div class="faq-item rv"><button class="faq-q">¿Ya tengo una página, la puedes mejorar?<span class="plus">+</span></button><div class="faq-a"><p>Claro. Hacemos una auditoría gratuita de tu página actual y te decimos exactamente qué está frenando tus ventas y cuánto costaría mejorarlo.</p></div></div>
+</div></section>
+
+<section class="cta-sec"><div class="wrap">
+  <p class="kicker rv">Empecemos hoy</p>
+  <h2 class="rv">¿Hacemos despegar tu negocio?</h2>
+  <p class="rv">Cuéntame tu idea por WhatsApp y en menos de 24 horas tienes una propuesta con precio y tiempos.</p>
+  <a class="btn rv" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener" style="font-size:1.1rem;padding:16px 34px">💬 Escríbenos por WhatsApp</a>
+</div></section>
+
+<footer><div class="wrap foot-in">
+  <span><b style="color:var(--txt)">MR·Dev</b> — Desarrollo web, apps y sistemas · Bogotá / Soacha, Colombia</span>
+  <a href="https://wa.me/573028454678" target="_blank" rel="noopener" style="color:var(--lime);font-weight:700">WhatsApp: 573028454678</a>
+</div></footer>
+
+<a class="wa-float" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener" aria-label="WhatsApp">
+<svg viewBox="0 0 32 32"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.4.7 4.6 1.9 6.5L4 29l7.7-1.8c1.8 1 3.9 1.6 6.1 1.6h.1c6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-4.6 1.1 1.2-4.5-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.7C6.9 9.9 11.3 5.9 16 5.9S25 9.9 25 15s-4.4 9.8-9 9.8zm5-6.7c-.3-.1-1.6-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-1 1.1-.2.2-.4.3-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5L13.7 10c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.2-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.5 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/></svg>
+</a>
+
+<script>
+document.getElementById('nav').classList.toggle('scrolled', scrollY > 10);
+addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 10));
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement, ans = item.querySelector('.faq-a'), open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = null; });
+    if (!open) { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
+  });
+});
+const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('vis'), io.unobserve(e.target))), {threshold: .12});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+/* ===== FX JS: partículas + tilt 3D + contadores + parallax ===== */
+(function(){
+  const cv = document.getElementById('fx');
+  if (cv && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0;
+    const N = innerWidth < 640 ? 34 : 70;
+    const pts = [];
+    function size(){ const r = cv.parentElement.getBoundingClientRect(); W = cv.width = r.width; H = cv.height = r.height; }
+    size(); addEventListener('resize', size);
+    for (let i = 0; i < N; i++) pts.push({ x: Math.random(), y: Math.random(), vx: (Math.random() - .5) * .0016, vy: (Math.random() - .5) * .0016, r: Math.random() * 1.8 + .7 });
+    (function loop(){
+      ctx.clearRect(0, 0, W, H);
+      const P = pts.map(p => ({ x: p.x * W, y: p.y * H, r: p.r }));
+      P.forEach(q => { ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, 7); ctx.fillStyle = 'rgba(212,249,59,.45)'; ctx.fill(); });
+      for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
+        const dx = P[i].x - P[j].x, dy = P[i].y - P[j].y, d = dx * dx + dy * dy;
+        if (d < 13000) { ctx.strokeStyle = 'rgba(212,249,59,' + (0.13 * (1 - d / 13000)).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P[i].x, P[i].y); ctx.lineTo(P[j].x, P[j].y); ctx.stroke(); }
+      }
+      pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > 1) p.vx *= -1; if (p.y < 0 || p.y > 1) p.vy *= -1; });
+      requestAnimationFrame(loop);
+    })();
+  }
+  // Tilt 3D en bloques de servicio y proyectos
+  if (matchMedia('(pointer:fine)').matches) {
+    document.querySelectorAll('.svc,.pf').forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        el.style.transform = 'perspective(900px) rotateY(' + (x * 10).toFixed(2) + 'deg) rotateX(' + (-y * 10).toFixed(2) + 'deg) translateY(-5px)';
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+    // Parallax de orbes con el mouse
+    const orbs = document.querySelectorAll('.orb');
+    addEventListener('mousemove', e => {
+      const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+      orbs.forEach((o, i) => { o.style.translate = (x * (18 + i * 14)).toFixed(1) + 'px ' + (y * (18 + i * 14)).toFixed(1) + 'px'; });
+    });
+  }
+  // Contadores animados
+  const cio = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return; cio.unobserve(e.target);
+    const el = e.target, end = +el.dataset.count, t0 = performance.now(), dur = 1400;
+    (function tick(t){ const k = Math.min((t - t0) / dur, 1), v = Math.round(end * (1 - Math.pow(1 - k, 3))); el.textContent = v; if (k < 1) requestAnimationFrame(tick); })(t0);
+  }), { threshold: .5 });
+  document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+})();
+</script>
 </body>
 </html>
-<video controls autoplay loop>
-    <source src="https://cdn.glitch.global/550bbdf8-d2fd-4c3f-9398-63b321097b7e/Facebook%20572186578400925(Source).mp4?v=1712682820339" type="video/mp4">
-    Tu navegador no soporta el elemento de video.
-</video>
-<video controls autoplay loop>
-    <source src="https://cdn.glitch.global/550bbdf8-d2fd-4c3f-9398-63b321097b7e/Facebook%20201448969483020(720p).mp4?v=1712682717213" type="video/mp4">
-    Tu navegador no soporta el elemento de video.
-</video>
-<video controls autoplay loop>
-    <source src="https://cdn.glitch.global/550bbdf8-d2fd-4c3f-9398-63b321097b7e/Facebook%20162897206740299(540p).mp4?v=1712682813861" type="video/mp4">
-    Tu navegador no soporta el elemento de video.
-</video>
-<video controls autoplay loop>
-    <source src="https://cdn.glitch.global/550bbdf8-d2fd-4c3f-9398-63b321097b7e/Facebook%20940772647076835(720p).mp4?v=1712683208847" type="video/mp4">
-    Tu navegador no soporta el elemento de video.
-</video>

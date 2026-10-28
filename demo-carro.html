@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carro familiar — Página de producto creada por MR Dev</title>
+<meta name="description" content="Página de ejemplo creada por MR Dev: así se vería la página de venta de un carro con visor 3D interactivo, fotos, ficha, beneficios y llamada a la acción. No es una tienda real.">
+<!-- ÚNICA librería externa: model-viewer (Google), necesaria para el visor 3D real. Todo lo demás es CSS/JS puro. -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+<style>
+  :root{--ink:#f4f4f5;--mut:#a7a7b3;--bg:#0b0b0d;--card:#16161a;--acc:#d4f93b;--acc-d:#a8cc1e;--amber:#d4f93b;--line:#26262c}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+  .demo-bar{background:var(--amber);color:#0b0b0d;font-weight:700;text-align:center;padding:.6rem 1rem;font-size:.95rem;position:sticky;top:0;z-index:50}
+  .demo-bar small{display:block;font-weight:600;font-size:.8rem}
+  header{max-width:1080px;margin:0 auto;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+  .brand{font-weight:800;letter-spacing:.02em}
+  .brand span{color:var(--acc)}
+  .pill{border:1.5px solid var(--acc);color:var(--acc-d);border-radius:999px;padding:.15rem .7rem;font-size:.8rem;font-weight:700}
+  main{max-width:1080px;margin:0 auto;padding:0 1.25rem 3rem}
+  .hero{display:grid;gap:1.5rem;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem;box-shadow:0 8px 30px rgba(0,0,0,.55)}
+  @media(min-width:860px){.hero{grid-template-columns:1fr 1.05fr;padding:2rem}}
+  h1{font-size:2rem;line-height:1.15;margin:.4rem 0 .6rem}
+  @media(min-width:860px){h1{font-size:2.5rem}}
+  .lead{color:var(--mut);font-size:1.05rem;margin:0 0 1rem}
+  .price{font-size:1.6rem;font-weight:800;margin:1rem 0 .2rem}
+  .price-note{color:var(--mut);font-size:.9rem;margin:0 0 1.25rem}
+  .cta-row{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:12px;padding:.85rem 1.3rem;text-align:center}
+  .btn-primary{background:var(--acc);color:#0b0b0d}
+  .btn-primary:hover{background:var(--acc-d)}
+  .btn-disabled{background:#2a2a31;color:#a7a7b3;cursor:not-allowed;border:0;font:inherit;font-weight:700;border-radius:12px;padding:.85rem 1.3rem}
+  .btn-note{font-size:.85rem;color:var(--mut);margin:.5rem 0 0}
+  .viewer-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#16161a,#101014)}
+  model-viewer{width:100%;height:420px;display:block}
+  @media(min-width:860px){model-viewer{height:480px}}
+  .viewer-hint{text-align:center;font-size:.9rem;color:var(--mut);padding:.6rem .8rem .2rem}
+  .viewer-actions{display:flex;gap:.5rem;justify-content:center;padding:.5rem .8rem 1rem;flex-wrap:wrap}
+  .mini-btn{border:1px solid var(--line);background:#16161a;color:var(--ink);border-radius:999px;padding:.4rem .9rem;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer}
+  .viewer-note{font-size:.82rem;color:var(--mut);text-align:center;padding:0 1rem 1rem;margin:0}
+  .fallback{display:none;text-align:center;padding:1rem}
+  .fallback img{max-width:100%;height:auto;border-radius:12px}
+  section{margin-top:2.5rem}
+  h2{font-size:1.5rem;margin:0 0 .4rem}
+  .sec-sub{color:var(--mut);margin:0 0 1rem}
+  .gallery{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:640px){.gallery{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
+  .gallery figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .gallery img{width:100%;height:220px;object-fit:cover;display:block}
+  .gallery figcaption{padding:.6rem .8rem;font-size:.85rem;color:var(--mut)}
+  .grid4{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:640px){.grid4{grid-template-columns:1fr 1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.1rem}
+  .card h3{margin:0 0 .3rem;font-size:1.05rem}
+  .card p{margin:0;color:var(--mut)}
+  .includes{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}
+  .includes li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}
+  .includes li::before{content:"✓ ";color:var(--acc);font-weight:800}
+  .specs{display:grid;gap:.6rem;grid-template-columns:1fr}
+  @media(min-width:640px){.specs{grid-template-columns:1fr 1fr}}
+  .spec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem}
+  .spec b{display:block;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:var(--acc)}
+  .spec span{color:var(--mut)}
+  .price-box{background:#121215;color:#f4f4f5;border-radius:18px;padding:1.5rem}
+  .price-box h2{color:#fff}
+  .price-box p{color:#a7a7b3}
+  .cta-final{background:var(--card);border:2px solid var(--acc);border-radius:18px;padding:1.5rem;text-align:center}
+  footer{max-width:1080px;margin:0 auto;padding:0 1.25rem 2.5rem;color:var(--mut);font-size:.85rem}
+  footer a{color:var(--acc-d)}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="demo-bar">DEMO · Página de ejemplo creada por MR Dev <small>No es una tienda real: el carro, el precio y las fotos son de ejemplo. Aquí no se vende nada ni se procesan pedidos.</small></div>
+
+<header>
+  <div class="brand">MR Dev</div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <span class="pill">Visor 3D interactivo incluido</span>
+      <h1>Carro familiar de ejemplo</h1>
+      <p class="lead">Así se vería la página de venta de tu vehículo: el cliente entra, gira el carro en 3D, ve los detalles y entiende por qué vale lo que cuesta.</p>
+      <p class="price">$72.900.000 COP</p>
+      <p class="price-note">Precio de ejemplo. En tu página iría tu precio real.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20una%20p%C3%A1gina%20as%C3%AD%20para%20mi%20producto" target="_blank" rel="noopener">Quiero una página así para mi producto</a>
+        <button class="btn-disabled" type="button" disabled title="Botón desactivado: esta es una demostración">Comprar</button>
+      </div>
+      <p class="btn-note">El botón que sí funciona es el de WhatsApp con MR Dev.</p>
+    </div>
+
+    <div class="viewer-card">
+      <model-viewer id="visor"
+        src="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Assets@main/Models/ToyCar/glTF-Binary/ToyCar.glb"
+        poster="https://cdn.pixabay.com/photo/2016/05/05/18/01/coupe-1374441_640.jpg"
+        alt="Modelo 3D de ejemplo de un carro"
+        camera-controls auto-rotate shadow-intensity="1" exposure="1" environment-image="neutral">
+      </model-viewer>
+      <div class="fallback" id="visor-fallback">
+        <img src="https://cdn.pixabay.com/photo/2016/05/05/18/01/coupe-1374441_640.jpg" alt="Foto de ejemplo de un cupé oscuro">
+        <p>El modelo 3D no se pudo cargar en este momento. Aquí ves la foto del carro de ejemplo.</p>
+      </div>
+      <p class="viewer-hint">👆 Arrastra para girar · Pellizca o usa la rueda del mouse para acercar</p>
+      <div class="viewer-actions">
+        <button class="mini-btn" type="button" id="btn-giro">Pausar giro automático</button>
+        <button class="mini-btn" type="button" id="btn-vista">Volver a la vista inicial</button>
+      </div>
+      <p class="viewer-note">El visor muestra un carro 3D genérico de ejemplo (modelo libre «ToyCar» de Khronos, dominio público CC0), no el carro exacto de la foto. En la página de tu negocio, el visor mostraría tu vehículo real.</p>
+    </div>
+  </div>
+
+  <!-- GALERÍA -->
+  <section>
+    <h2>El carro en fotos</h2>
+    <p class="sec-sub">Fotos de ejemplo de Pixabay. En tu página irían las fotos reales de tu vehículo.</p>
+    <div class="gallery">
+      <figure>
+        <img src="https://cdn.pixabay.com/photo/2013/06/05/20/41/sports-car-116949_640.jpg" alt="Detalle de la farola de un carro rojo" loading="lazy">
+        <figcaption>Foto de ejemplo · Detalle de farola (Pixabay, 12019)</figcaption>
+      </figure>
+      <figure>
+        <img src="https://cdn.pixabay.com/photo/2019/04/25/20/12/sport-4155825_640.jpg" alt="Frente de un carro deportivo amarillo" loading="lazy">
+        <figcaption>Foto de ejemplo · Frente deportivo (Pixabay, fbouddounit)</figcaption>
+      </figure>
+      <figure>
+        <img src="https://cdn.pixabay.com/photo/2019/11/25/13/35/travel-4652075_640.jpg" alt="Espejo retrovisor reflejando la carretera" loading="lazy">
+        <figcaption>Foto de estilo de vida, ejemplo · En carretera (Pixabay, akirEVarga)</figcaption>
+      </figure>
+      <figure>
+        <img src="https://cdn.pixabay.com/photo/2015/07/20/00/57/vintage-car-852239_640.jpg" alt="Interior de un carro con timón y tablero clásicos" loading="lazy">
+        <figcaption>Foto de ejemplo · Interior (Pixabay, JillWellington)</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section>
+    <h2>Por qué te sirve</h2>
+    <p class="sec-sub">Beneficios de ejemplo, escritos como irían en la página de un negocio real.</p>
+    <div class="grid4">
+      <div class="card"><h3>👨‍👩‍👧 Espacio para toda la familia</h3><p>Cinco puestos cómodos para viajar sin ir apretados, en ciudad o en carretera (ejemplo).</p></div>
+      <div class="card"><h3>🛣️ Listo para ciudad y carretera</h3><p>Un carro para el día a día y para salir el fin de semana, sin cambiar de vehículo (ejemplo).</p></div>
+      <div class="card"><h3>🔄 Se revisa en 3D antes de escribirnos</h3><p>El cliente gira el carro, ve los detalles y llega a WhatsApp con preguntas claras (ejemplo).</p></div>
+      <div class="card"><h3>💬 Fácil de compartir</h3><p>La página se comparte por WhatsApp y redes tal cual, sin que el cliente tenga que descargar nada (ejemplo).</p></div>
+    </div>
+  </section>
+
+  <!-- FICHA DE EJEMPLO -->
+  <section>
+    <h2>Ficha de ejemplo</h2>
+    <p class="sec-sub">Datos ficticios, solo para mostrar cómo se vería la ficha de tu vehículo en la página.</p>
+    <div class="specs">
+      <div class="spec"><b>Año</b><span>2022 (ejemplo)</span></div>
+      <div class="spec"><b>Transmisión</b><span>Automática (ejemplo)</span></div>
+      <div class="spec"><b>Combustible</b><span>Gasolina (ejemplo)</span></div>
+      <div class="spec"><b>Kilometraje</b><span>32.000 km (ejemplo)</span></div>
+      <div class="spec"><b>Color</b><span>Gris oscuro (ejemplo)</span></div>
+      <div class="spec"><b>Ubicación</b><span>Bogotá / Soacha (ejemplo)</span></div>
+    </div>
+  </section>
+
+  <!-- QUÉ INCLUYE -->
+  <section>
+    <h2>Qué incluye</h2>
+    <p class="sec-sub">Contenido de ejemplo. En tu página iría exactamente lo que entregas con tu vehículo.</p>
+    <ul class="includes">
+      <li>Carro de ejemplo con ficha, fotos y visor 3D</li>
+      <li>Revisión básica del vehículo (ejemplo)</li>
+      <li>Acompañamiento por WhatsApp durante la compra (ejemplo)</li>
+    </ul>
+  </section>
+
+  <!-- PRECIO -->
+  <section class="price-box">
+    <h2>Precio de ejemplo</h2>
+    <p><strong style="color:#fff;font-size:1.4rem">$72.900.000 COP</strong> · Precio ficticio, solo para mostrar cómo se vería tu precio en la página.</p>
+    <p>En una tienda real, aquí irían el botón de compra, el pago y la información de entrega que defina cada negocio.</p>
+    <button class="btn-disabled" type="button" disabled title="Botón desactivado: esta es una demostración">Comprar</button>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <h2>¿Quieres una página así para tu producto?</h2>
+    <p>MR Dev crea páginas de producto con visor 3D, fotos, ficha, beneficios y llamada a la acción, listas para vender. Escríbenos y cuéntanos qué vendes.</p>
+    <a class="btn btn-primary" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20una%20p%C3%A1gina%20as%C3%AD%20para%20mi%20producto" target="_blank" rel="noopener">Quiero una página así para mi producto</a>
+  </section>
+</main>
+
+<footer>
+  <p>Página de ejemplo creada por MR Dev.</p>
+  <p>Modelo 3D: «ToyCar», muestra libre de Khronos Group (dominio público CC0; Guido Odendahl y Eric Chadwick). Fotos: Pixabay (ver créditos en cada foto). Visor 3D: librería <em>model-viewer</em> de Google. El resto de la página es HTML, CSS y JavaScript puros, sin más librerías externas.</p>
+  <p>Foto principal: cupé oscuro, Pixabay, usuario pgottschalk — <a href="https://pixabay.com/photos/coupe-limousine-car-auto-1374441/" target="_blank" rel="noopener">ver en Pixabay</a>.</p>
+</footer>
+
+<script>
+(function(){
+  var visor = document.getElementById('visor');
+  var fallback = document.getElementById('visor-fallback');
+  var btnGiro = document.getElementById('btn-giro');
+  var btnVista = document.getElementById('btn-vista');
+  function mostrarFallback(){
+    if (visor) visor.style.display = 'none';
+    if (fallback) fallback.style.display = 'block';
+  }
+  // Si la librería 3D no cargó (CDN bloqueado, sin JS de módulo, etc.), mostrar la foto.
+  setTimeout(function(){
+    if (!window.customElements || !customElements.get('model-viewer')) mostrarFallback();
+  }, 8000);
+  if (visor) visor.addEventListener('error', mostrarFallback);
+  if (btnGiro && visor) btnGiro.addEventListener('click', function(){
+    if (visor.hasAttribute('auto-rotate')) {
+      visor.removeAttribute('auto-rotate');
+      btnGiro.textContent = 'Reanudar giro automático';
+    } else {
+      visor.setAttribute('auto-rotate', '');
+      btnGiro.textContent = 'Pausar giro automático';
+    }
+  });
+  if (btnVista && visor) btnVista.addEventListener('click', function(){
+    try {
+      if (typeof visor.resetTurntable === 'function') visor.resetTurntable();
+      visor.cameraOrbit = '0deg 75deg 105%';
+    } catch (e) { /* vista por defecto del visor */ }
+  });
+})();
+</script>
+</body>
+</html>
