@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MR Dev — Páginas web, apps y sistemas que venden</title>
 <meta name="description" content="MR Dev: diseño landing pages, sitios web, aplicaciones móviles y sistemas CRM a medida en Colombia. Precio claro, entrega en días, contacto directo por WhatsApp.">
+<meta name="theme-color" content="#0b0b0d">
+<meta property="og:title" content="MR Dev — Páginas web, apps y sistemas que venden">
+<meta property="og:description" content="Precio claro desde el día uno, entrega en días y contacto directo por WhatsApp.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0d'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='28' font-weight='800' fill='%23d4f93b' text-anchor='middle'%3EMR%3C/text%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('mrdev-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
 <!-- ÚNICA librería externa añadida para la sección «Demo en vivo»: model-viewer (Google), necesaria para el visor 3D real. -->
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 <style>
@@ -31,7 +37,26 @@ nav.scrolled{box-shadow:0 8px 30px rgba(0,0,0,.45)}
 .btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(212,249,59,.28)}
 .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
 .btn.ghost:hover{border-color:var(--lime);box-shadow:none}
-.btn.sm{padding:9px 20px;font-size:.9rem}
+.btn.sm{padding:12px 20px;font-size:.9rem;min-height:44px}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible,.faq-q:focus-visible,.theme-btn:focus-visible,.menu-btn:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.theme-btn,.menu-btn{background:transparent;border:1px solid var(--line);color:var(--txt);border-radius:999px;min-width:44px;min-height:44px;padding:0 12px;cursor:pointer;font-size:1rem}
+.menu-btn{display:none}
+[data-theme="light"]{--bg:#f6f6f3;--bg2:#ffffff;--card:#ffffff;--line:#dcdcd6;--txt:#141417;--mut:#55565e}
+[data-theme="light"] .kicker,[data-theme="light"] .svc-body h4,[data-theme="light"] .price,[data-theme="light"] .logo b,[data-theme="light"] .stat b,[data-theme="light"] .chip i,[data-theme="light"] .faq-q .plus,[data-theme="light"] .svc-body ul li::before,[data-theme="light"] .tag,[data-theme="light"] .eyebrow{color:#5f7d00}
+[data-theme="light"] h1 .hl{background:linear-gradient(90deg,#5f7d00,#7a9e00,#5f7d00);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-theme="light"] .mockup-win{background:#141419}
+[data-theme="light"] nav{background:rgba(246,246,243,.9)}
+.cot{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.cot label{display:block;font-weight:700;margin:16px 0 6px}
+.cot select,.cot input,.cot textarea{width:100%;background:var(--bg2);color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:1rem;min-height:44px}
+.cot textarea{min-height:96px;resize:vertical}
+.cot-result{margin-top:20px;border:1px dashed #33333a;border-radius:14px;padding:18px;background:var(--bg2)}
+.cot-result b{color:var(--lime)}
+[data-theme="light"] .cot-result b{color:#5f7d00}
+.cot-note{color:var(--mut);font-size:.9rem;margin-top:12px}
+.cot-banner{display:none;background:var(--bg2);border:1px solid var(--lime);border-radius:14px;padding:16px;margin-bottom:20px}
+.cot-banner.show{display:block}
 /* HERO */
 .hero{padding:150px 0 70px;position:relative}
 .hero::before{content:"";position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:720px;height:420px;background:radial-gradient(ellipse at center,rgba(212,249,59,.13),transparent 70%);pointer-events:none}
@@ -150,7 +175,10 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mut);font-siz
   .svc-meta{text-align:left;margin-left:0}
 }
 @media(max-width:640px){
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center}
   .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);padding:16px 22px;gap:6px}
+  .nav-links.open a{padding:12px 0;min-height:44px;display:flex;align-items:center}
   .hero{padding:120px 0 54px}
   section{padding:60px 0}
   .stats-in{grid-template-columns:1fr;gap:22px}
@@ -203,10 +231,12 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
 
 <nav id="nav"><div class="wrap nav-in">
   <a href="#top" class="logo"><b>MR</b>·Dev</a>
-  <div class="nav-links">
+  <div class="nav-links" id="nav-links">
     <a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#proceso">Proceso</a><a href="#faq">Preguntas</a>
   </div>
-  <a class="btn sm" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener">Cotizar</a>
+  <button class="theme-btn" id="theme-btn" type="button" aria-label="Cambiar entre tema oscuro y claro" aria-pressed="false">🌙</button>
+  <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links">Menú</button>
+  <a class="btn sm" href="#cotizador">Cotizar</a>
 </div></nav>
 
 <header class="hero" id="top">
@@ -218,7 +248,7 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
     <h1 class="rv">Tu negocio no necesita solo una página bonita. Necesita una <span class="hl">que venda.</span></h1>
     <p class="sub rv">MR Dev es un estudio de desarrollo en Bogotá y Soacha que construye landing pages, sitios web, aplicaciones móviles y sistemas CRM que convierten visitas en clientes. Precio claro desde el día uno y entrega en días, no meses.</p>
     <div class="hero-cta rv">
-      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener">💬 Cotizar por WhatsApp</a>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener">💬 Cotizar por WhatsApp</a>
       <a class="btn ghost" href="#servicios">Ver servicios y precios</a>
     </div>
     <div class="chips rv">
@@ -244,9 +274,9 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
 </div></header>
 
 <div class="stats"><div class="wrap stats-in">
-  <div class="stat rv"><b><span data-count="3">0</span>+</b><span>productos digitales propios construidos</span></div>
+  <div class="stat rv"><b><span data-count="3">3</span>+</b><span>productos digitales propios construidos</span></div>
   <div class="stat rv"><b>5–30 días</b><span>de entrega según el proyecto</span></div>
-  <div class="stat rv"><b><span data-count="100">0</span>%</b><span>diseños responsive para celular</span></div>
+  <div class="stat rv"><b><span data-count="100">100</span>%</b><span>diseños responsive para celular</span></div>
 </div></div>
 
 <div class="marquee"><div class="marquee-track">
@@ -287,7 +317,7 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
           </ul>
         </div>
       </div>
-      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20una%20landing%20page" target="_blank" rel="noopener">Cotizar landing</a>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20una%20landing%20page%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener">Cotizar landing</a>
     </article>
 
     <article class="svc rv">
@@ -316,7 +346,7 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
           </ul>
         </div>
       </div>
-      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20un%20sitio%20web%20corporativo" target="_blank" rel="noopener">Cotizar web</a>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20un%20sitio%20web%20corporativo%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener">Cotizar web</a>
     </article>
 
     <article class="svc rv">
@@ -345,7 +375,7 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
           </ul>
         </div>
       </div>
-      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20una%20app%20m%C3%B3vil" target="_blank" rel="noopener">Cotizar app</a>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20una%20app%20m%C3%B3vil%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener">Cotizar app</a>
     </article>
 
     <article class="svc rv">
@@ -374,7 +404,7 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
           </ul>
         </div>
       </div>
-      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20un%20CRM%20o%20sistema%20a%20medida" target="_blank" rel="noopener">Cotizar sistema</a>
+      <a class="btn" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20me%20interesa%20un%20CRM%20o%20sistema%20a%20medida%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener">Cotizar sistema</a>
     </article>
 
   </div>
@@ -416,7 +446,7 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
       </div>
       <div class="demo-vivo-cta">
         <a class="btn" href="demo-carro.html">Ver la demo completa →</a>
-        <a class="btn ghost" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20una%20p%C3%A1gina%20as%C3%AD%20para%20mi%20producto" target="_blank" rel="noopener">Quiero una página así</a>
+        <a class="btn ghost" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20una%20p%C3%A1gina%20as%C3%AD%20para%20mi%20producto%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener">Quiero una página así</a>
       </div>
       <p class="demo-vivo-disclaimer">Demo creada por MR Dev. No pertenece a ningún cliente, no muestra reseñas ni cifras de ventas, y no procesa pedidos.</p>
     </div>
@@ -488,7 +518,7 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
       <div class="pf-visual">💬</div>
       <div class="pf-body"><h3>¿Tu proyecto aquí?</h3>
         <p>Estamos tomando los primeros clientes con tarifa de lanzamiento. Escríbenos y construimos algo que venda por ti.</p>
-        <a class="btn sm" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20que%20mi%20proyecto%20sea%20el%20siguiente" target="_blank" rel="noopener" style="margin-top:8px">Empezar mi proyecto</a>
+        <a class="btn sm" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20que%20mi%20proyecto%20sea%20el%20siguiente%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener" style="margin-top:8px">Empezar mi proyecto</a>
       </div>
     </div>
   </div>
@@ -530,81 +560,144 @@ h1 .hl{background:linear-gradient(90deg,#d4f93b,#8fe388,#d4f93b);background-size
   <div class="faq-item rv"><button class="faq-q">¿Ya tengo una página, la puedes mejorar?<span class="plus">+</span></button><div class="faq-a"><p>Claro. Hacemos una auditoría gratuita de tu página actual y te decimos exactamente qué está frenando tus ventas y cuánto costaría mejorarlo.</p></div></div>
 </div></section>
 
+
+<section id="cotizador"><div class="wrap" style="max-width:800px">
+  <p class="kicker rv">Cotizador rápido</p>
+  <h2 class="rv">Cotiza en 30 segundos</h2>
+  <p class="sec-sub rv">Precios de lanzamiento oficiales. Es un estimado: la propuesta final, con alcance cerrado y fecha, te llega por WhatsApp. Si algo falla, el botón general de WhatsApp sigue funcionando.</p>
+  <div class="cot-banner" id="cot-banner" role="status"><b>Tienes una cotización guardada.</b> <span id="cot-banner-text"></span><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn sm" type="button" id="cot-continuar">Continuar cotización</button><button class="btn sm ghost" type="button" id="cot-descartar">Descartar</button></div></div>
+  <form class="cot rv" id="cot-form" novalidate>
+    <label for="cot-servicio">¿Qué necesitas?</label>
+    <select id="cot-servicio">
+      <option value="landing" data-price="400000" data-time="5–7 días">Landing Page — desde $400.000 COP</option>
+      <option value="web" data-price="900000" data-time="2–3 semanas">Sitio Web Corporativo — desde $900.000 COP</option>
+      <option value="app" data-price="2500000" data-time="4–8 semanas">App Móvil MVP — desde $2.500.000 COP</option>
+      <option value="crm" data-price="2000000" data-time="4–8 semanas">CRM / Sistema a medida — desde $2.000.000 COP</option>
+    </select>
+    <label for="cot-negocio">Tu negocio (opcional)</label>
+    <input id="cot-negocio" type="text" maxlength="120" placeholder="Ej: Panadería La Esperanza, Soacha" autocomplete="organization">
+    <label for="cot-idea">Cuéntanos tu idea (opcional)</label>
+    <textarea id="cot-idea" maxlength="500" placeholder="Ej: Quiero una página para recibir pedidos por WhatsApp"></textarea>
+    <div class="cot-result" aria-live="polite">
+      <p id="cot-resultado">Landing Page — desde <b>$400.000 COP</b> · Entrega en 5–7 días · Anticipo 50%: <b>$200.000 COP</b></p>
+      <p class="cot-note">Sin costos ocultos: dominio y hosting se cotizan aparte y quedan a tu nombre, como dice la sección de preguntas.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:18px">
+      <a class="btn" id="cot-wa" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto%20%5BOrigen%3A%20Cotizador%20Web%5D" target="_blank" rel="noopener">💬 Enviar por WhatsApp</a>
+      <button class="btn ghost" type="button" id="cot-guardar">Guardar borrador</button>
+      <button class="btn ghost" type="button" id="cot-limpiar">Borrar borrador</button>
+    </div>
+    <p class="cot-note" id="cot-estado">Tu borrador solo se guarda en tu propio dispositivo. No se envía nada hasta que toques WhatsApp.</p>
+  </form>
+</div></section>
+
 <section class="cta-sec"><div class="wrap">
   <p class="kicker rv">Empecemos hoy</p>
   <h2 class="rv">¿Hacemos despegar tu negocio?</h2>
   <p class="rv">Cuéntame tu idea por WhatsApp y en menos de 24 horas tienes una propuesta con precio y tiempos.</p>
-  <a class="btn rv" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener" style="font-size:1.1rem;padding:16px 34px">💬 Escríbenos por WhatsApp</a>
+  <a class="btn rv" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener" style="font-size:1.1rem;padding:16px 34px">💬 Escríbenos por WhatsApp</a>
 </div></section>
 
 <footer><div class="wrap foot-in">
   <span><b style="color:var(--txt)">MR·Dev</b> — Desarrollo web, apps y sistemas · Bogotá / Soacha, Colombia</span>
-  <a href="https://wa.me/573028454678" target="_blank" rel="noopener" style="color:var(--lime);font-weight:700">WhatsApp: 573028454678</a>
+  <a href="https://wa.me/573028454678?text=Hola%20MR%20Dev%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener" style="color:var(--lime);font-weight:700">WhatsApp: 573028454678</a>
 </div></footer>
 
-<a class="wa-float" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto" target="_blank" rel="noopener" aria-label="WhatsApp">
+<a class="wa-float" href="https://wa.me/573028454678?text=Hola%20MR%20Dev%2C%20quiero%20cotizar%20un%20proyecto%20%5BOrigen%3A%20Bot%C3%B3n%20Directo%5D" target="_blank" rel="noopener" aria-label="WhatsApp">
 <svg viewBox="0 0 32 32"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.4.7 4.6 1.9 6.5L4 29l7.7-1.8c1.8 1 3.9 1.6 6.1 1.6h.1c6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-4.6 1.1 1.2-4.5-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.7C6.9 9.9 11.3 5.9 16 5.9S25 9.9 25 15s-4.4 9.8-9 9.8zm5-6.7c-.3-.1-1.6-.8-1.9-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-1 1.1-.2.2-.4.3-.7.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5L13.7 10c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.2-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.5 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/></svg>
 </a>
 
 <script>
-document.getElementById('nav').classList.toggle('scrolled', scrollY > 10);
-addEventListener('scroll', () => document.getElementById('nav').classList.toggle('scrolled', scrollY > 10));
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.parentElement, ans = item.querySelector('.faq-a'), open = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = null; });
-    if (!open) { item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
-  });
-});
-const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && (e.target.classList.add('vis'), io.unobserve(e.target))), {threshold: .12});
-document.querySelectorAll('.rv').forEach(el => io.observe(el));
-
-/* ===== FX JS: partículas + tilt 3D + contadores + parallax ===== */
 (function(){
-  const cv = document.getElementById('fx');
-  if (cv && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const ctx = cv.getContext('2d');
-    let W = 0, H = 0;
-    const N = innerWidth < 640 ? 34 : 70;
-    const pts = [];
-    function size(){ const r = cv.parentElement.getBoundingClientRect(); W = cv.width = r.width; H = cv.height = r.height; }
-    size(); addEventListener('resize', size);
-    for (let i = 0; i < N; i++) pts.push({ x: Math.random(), y: Math.random(), vx: (Math.random() - .5) * .0016, vy: (Math.random() - .5) * .0016, r: Math.random() * 1.8 + .7 });
-    (function loop(){
-      ctx.clearRect(0, 0, W, H);
-      const P = pts.map(p => ({ x: p.x * W, y: p.y * H, r: p.r }));
-      P.forEach(q => { ctx.beginPath(); ctx.arc(q.x, q.y, q.r, 0, 7); ctx.fillStyle = 'rgba(212,249,59,.45)'; ctx.fill(); });
-      for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
-        const dx = P[i].x - P[j].x, dy = P[i].y - P[j].y, d = dx * dx + dy * dy;
-        if (d < 13000) { ctx.strokeStyle = 'rgba(212,249,59,' + (0.13 * (1 - d / 13000)).toFixed(3) + ')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P[i].x, P[i].y); ctx.lineTo(P[j].x, P[j].y); ctx.stroke(); }
-      }
-      pts.forEach(p => { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > 1) p.vx *= -1; if (p.y < 0 || p.y > 1) p.vy *= -1; });
-      requestAnimationFrame(loop);
-    })();
-  }
-  // Tilt 3D en bloques de servicio y proyectos
-  if (matchMedia('(pointer:fine)').matches) {
-    document.querySelectorAll('.svc,.pf').forEach(el => {
-      el.addEventListener('mousemove', e => {
-        const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-        el.style.transform = 'perspective(900px) rotateY(' + (x * 10).toFixed(2) + 'deg) rotateX(' + (-y * 10).toFixed(2) + 'deg) translateY(-5px)';
+  try{
+    var nav=document.getElementById('nav');
+    if(nav){var onScroll=function(){nav.classList.toggle('scrolled',window.scrollY>10);};onScroll();addEventListener('scroll',onScroll);}
+  }catch(e){}
+  try{
+    var themeBtn=document.getElementById('theme-btn');
+    function applyTheme(t){document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');if(themeBtn){themeBtn.textContent=t==='light'?'☀️':'🌙';themeBtn.setAttribute('aria-pressed',t==='light'?'true':'false');}}
+    var saved=null;try{saved=localStorage.getItem('mrdev-theme');}catch(e){}
+    applyTheme(saved==='light'?'light':'dark');
+    if(themeBtn)themeBtn.addEventListener('click',function(){var next=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';try{localStorage.setItem('mrdev-theme',next);}catch(e){}applyTheme(next);});
+  }catch(e){}
+  try{
+    var menuBtn=document.getElementById('menu-btn'),links=document.getElementById('nav-links');
+    if(menuBtn&&links)menuBtn.addEventListener('click',function(){var open=links.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open?'true':'false');});
+    if(links)links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){links.classList.remove('open');if(menuBtn)menuBtn.setAttribute('aria-expanded','false');});});
+  }catch(e){}
+  try{
+    document.querySelectorAll('.faq-q').forEach(function(btn,i){
+      var item=btn.parentElement,ans=item?item.querySelector('.faq-a'):null;if(!ans)return;
+      ans.id='faq-a-'+i;btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls',ans.id);
+      btn.addEventListener('click',function(){
+        var open=item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(function(x){x.classList.remove('open');var a=x.querySelector('.faq-a');if(a)a.style.maxHeight=null;var b=x.querySelector('.faq-q');if(b)b.setAttribute('aria-expanded','false');});
+        if(!open){item.classList.add('open');ans.style.maxHeight=ans.scrollHeight+'px';btn.setAttribute('aria-expanded','true');}
       });
-      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
     });
-    // Parallax de orbes con el mouse
-    const orbs = document.querySelectorAll('.orb');
-    addEventListener('mousemove', e => {
-      const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
-      orbs.forEach((o, i) => { o.style.translate = (x * (18 + i * 14)).toFixed(1) + 'px ' + (y * (18 + i * 14)).toFixed(1) + 'px'; });
-    });
-  }
-  // Contadores animados
-  const cio = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return; cio.unobserve(e.target);
-    const el = e.target, end = +el.dataset.count, t0 = performance.now(), dur = 1400;
-    (function tick(t){ const k = Math.min((t - t0) / dur, 1), v = Math.round(end * (1 - Math.pow(1 - k, 3))); el.textContent = v; if (k < 1) requestAnimationFrame(tick); })(t0);
-  }), { threshold: .5 });
-  document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+  }catch(e){}
+  try{
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('vis');io.unobserve(en.target);}});},{threshold:.12});
+      document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+    }else{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('vis');});}
+  }catch(e){try{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('vis');});}catch(_){}}
+  try{
+    if('IntersectionObserver' in window){
+      var cio=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;cio.unobserve(en.target);var el=en.target,end=+el.dataset.count||0,t0=performance.now(),dur=1400;el.textContent='0';(function tick(t){var k=Math.min((t-t0)/dur,1),v=Math.round(end*(1-Math.pow(1-k,3)));el.textContent=v;if(k<1)requestAnimationFrame(tick);})(t0);});},{threshold:.5});
+      document.querySelectorAll('[data-count]').forEach(function(el){cio.observe(el);});
+    }
+  }catch(e){}
+  /* FX original (particulas + tilt + parallax), ahora con guards: si canvas/contexto falla, no rompe el resto */
+  try{
+    var cv=document.getElementById('fx');
+    if(cv && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      var ctx=cv.getContext('2d');
+      if(ctx){
+        var W=0,H=0,N=innerWidth<640?34:70,pts=[];
+        function size(){var r=cv.parentElement.getBoundingClientRect();W=cv.width=r.width;H=cv.height=r.height;}
+        size();addEventListener('resize',size);
+        for(var i=0;i<N;i++)pts.push({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.0016,vy:(Math.random()-.5)*.0016,r:Math.random()*1.8+.7});
+        (function loop(){ctx.clearRect(0,0,W,H);var P=pts.map(function(p){return{x:p.x*W,y:p.y*H,r:p.r};});P.forEach(function(q){ctx.beginPath();ctx.arc(q.x,q.y,q.r,0,7);ctx.fillStyle='rgba(212,249,59,.45)';ctx.fill();});for(var a=0;a<P.length;a++)for(var b=a+1;b<P.length;b++){var dx=P[a].x-P[b].x,dy=P[a].y-P[b].y,d=dx*dx+dy*dy;if(d<13000){ctx.strokeStyle='rgba(212,249,59,'+(0.13*(1-d/13000)).toFixed(3)+')';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(P[a].x,P[a].y);ctx.lineTo(P[b].x,P[b].y);ctx.stroke();}}pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>1)p.vx*=-1;if(p.y<0||p.y>1)p.vy*=-1;});requestAnimationFrame(loop);})();
+      }
+    }
+    if(matchMedia('(pointer:fine)').matches){
+      document.querySelectorAll('.svc,.pf').forEach(function(el){
+        el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transform='perspective(900px) rotateY('+(x*10).toFixed(2)+'deg) rotateX('+(-y*10).toFixed(2)+'deg) translateY(-5px)';});
+        el.addEventListener('mouseleave',function(){el.style.transform='';});
+      });
+      var orbs=document.querySelectorAll('.orb');
+      addEventListener('mousemove',function(e){var x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;orbs.forEach(function(o,i){o.style.translate=(x*(18+i*14)).toFixed(1)+'px '+(y*(18+i*14)).toFixed(1)+'px';});});
+    }
+  }catch(e){}
+  /* Cotizador + borrador (clave versionada; un borrador corrupto se ignora, nunca rompe la pagina) */
+  try{
+    var KEY='mrdev-cotizador-v1',form=document.getElementById('cot-form');if(form){
+      var sel=document.getElementById('cot-servicio'),neg=document.getElementById('cot-negocio'),idea=document.getElementById('cot-idea'),res=document.getElementById('cot-resultado'),wa=document.getElementById('cot-wa'),estado=document.getElementById('cot-estado'),banner=document.getElementById('cot-banner'),btext=document.getElementById('cot-banner-text');
+      function fmt(n){return '$'+n.toLocaleString('es-CO')+' COP';}
+      function update(){
+        var opt=sel.options[sel.selectedIndex],price=+opt.dataset.price||0,time=opt.dataset.time||'';
+        res.innerHTML=opt.text.split(' — ')[0]+' — desde <b>'+fmt(price)+'</b> · Entrega en '+time+' · Anticipo 50%: <b>'+fmt(Math.round(price/2))+'</b>';
+        var msg='Hola MR Dev, quiero cotizar: '+opt.text.split(' — ')[0]+' (desde '+fmt(price)+', entrega '+time+')'+(neg.value.trim()?'. Negocio: '+neg.value.trim():'')+(idea.value.trim()?'. Idea: '+idea.value.trim():'');
+        wa.href='https://wa.me/573028454678?text='+encodeURIComponent(msg+' [Origen: Cotizador Web]');
+      }
+      function save(show){
+        try{localStorage.setItem(KEY,JSON.stringify({servicio:sel.value,negocio:neg.value,idea:idea.value,ts:Date.now()}));if(show&&estado)estado.textContent='Borrador guardado en tu dispositivo.';}catch(e){if(estado)estado.textContent='No se pudo guardar el borrador en este dispositivo, pero puedes enviar por WhatsApp.';}
+      }
+      function load(){
+        try{var raw=localStorage.getItem(KEY);if(!raw)return null;var d=JSON.parse(raw);if(!d||typeof d!=='object')return null;var ok=false;for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===d.servicio){sel.value=d.servicio;ok=true;}}if(!ok)return null;neg.value=d.negocio||'';idea.value=d.idea||'';return d;}catch(e){try{localStorage.removeItem(KEY);}catch(_){}return null;}
+      }
+      sel.addEventListener('change',function(){update();save(false);});
+      neg.addEventListener('input',function(){update();});idea.addEventListener('input',function(){update();});
+      var savedDraft=load();update();
+      if(savedDraft&&banner){btext.textContent='Servicio: '+sel.options[sel.selectedIndex].text.split(' — ')[0]+'.';banner.classList.add('show');
+        var cont=document.getElementById('cot-continuar');if(cont)cont.addEventListener('click',function(){document.getElementById('cotizador').scrollIntoView({behavior:'smooth'});});
+        var desc=document.getElementById('cot-descartar');if(desc)desc.addEventListener('click',function(){try{localStorage.removeItem(KEY);}catch(e){}banner.classList.remove('show');});
+      }
+      var g=document.getElementById('cot-guardar');if(g)g.addEventListener('click',function(){save(true);});
+      var l=document.getElementById('cot-limpiar');if(l)l.addEventListener('click',function(){try{localStorage.removeItem(KEY);}catch(e){}sel.value='landing';neg.value='';idea.value='';update();if(banner)banner.classList.remove('show');if(estado)estado.textContent='Borrador borrado.';});
+    }
+  }catch(e){}
 })();
 </script>
 </body>
